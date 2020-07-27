@@ -1,13 +1,60 @@
-const notes = ['Note 1', 'Note 2', 'Note 3']
+const notes = [{
+    title: 'My next trip',
+    body: 'I would like to go to india'
+}, {
+    title: 'Habbits to work on',
+    body: 'coding'
+}, {
+    title: 'Office Mods',
+    body: 'get a standing desk'
+}]
 
-// console.log(notes.pop())
-// notes.push('My new note')
+const sortNotes = function (notes) {
+    notes.sort(function (a, b) {
+        if ( a.title.toLowerCase() < b.title.toLowerCase()) {
+            return -1
+        } else if (b.title.toLowerCase() < a.title.toLowerCase()) {
+            return 1
+        } else {
+            return 0
+        }
+        
+    })
+}
 
-// console.log(notes.shift())
-// notes.unshift('my first note')
+const findNote = function (notes, noteTitle) {
+    return notes.find(function (note, index) {
+        return note.title.toLowerCase() === noteTitle.toLowerCase()
+    })
+}
 
-notes.splice(1, 1, 'new second item')
+const findNotes = function (notes, query) {
+    return notes.filter(function (note, index) {
+        const isTitleMatch = note.title.toLowerCase().includes(query.toLowerCase())
+        const isBodyMatch = note.body.toLowerCase().includes(query.toLowerCase())
+        return isTitleMatch || isBodyMatch
+    })
+}
 
 
-console.log(notes.length)
+sortNotes(notes)
 console.log(notes)
+
+// console.log(findNotes(notes, 'work'))
+// const findNote = function (notes, noteTitle) {
+//     const index = notes.findIndex(function (note, index) {
+//         return note.title.toLowerCase() === noteTitle.toLowerCase()
+//     })
+//     return notes[index]
+// }
+
+// const note = findNote(notes, 'office mods')
+// console.log(note)
+
+// const index = notes.findIndex(function (note, index) {
+//     console.log(note)
+//     return note.tile === 'Habbits to work on'
+// })
+
+// console.log(index)
+
