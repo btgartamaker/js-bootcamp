@@ -1,19 +1,25 @@
-const notes = getSavedNotes()
+let notes = getSavedNotes()
 
 const filters = {
-    searchText: ''
+    searchText: '',
+    sortBy: 'byEdited'
 }
 
 
 renderNotes(notes, filters)
 
 document.querySelector('#create-note').addEventListener('click', function () {
+    const id = uuidv4()
+    const timestamp = moment().valueOf()
     notes.push({
+        id: id,
+        createdAt: timestamp,
+        updatedAt: timestamp,
         title: '',
         body: ''
     })
-    getSavedNotes(notes)
-    renderNotes(notes, filters)
+    saveNotes(notes)
+    location.assign(`/edit.html#${id}`)
 })
 
 
@@ -23,20 +29,14 @@ document.querySelector('#search-text').addEventListener('input', function(e) {
 })
 
 document.querySelector('#filter-by').addEventListener('change', function (e) {
-
+    filters.sortBy = e.target.value
+    renderNotes(notes, filters)
 })
 
-// // const p = document.querySelector('p')
-// // p.remove()
+window.addEventListener('storage', function(e) {
+    if (e.key === 'notes') {
+        notes = JSON.parse(e.newValue)
+        renderNotes(notes, filters)
+    }
+})
 
-// const ps = document.querySelectorAll('p')
-
-// ps.forEach(function(p) {
-//     p.textContent = '************'
-//     // console.log(p.textContent)
-// })
-
-// const newParagrah = document.createElement('p')
-
-// newParagrah.textContent = ' This is a new element'
-// document.querySelector('body').appendChild(newParagrah)

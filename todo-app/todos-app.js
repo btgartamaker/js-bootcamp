@@ -20,7 +20,11 @@ document.querySelector('#hide-completed').addEventListener('change', function(e)
 
 document.querySelector('#add-todo').addEventListener('submit', function(e) {
     e.preventDefault()
-    todos.push({text: e.target.elements.newTask.value, completed: false})
+    todos.push({
+        id: uuidv4(),
+        text: e.target.elements.newTask.value,
+        completed: false
+    })
     saveTodos(todos)
     renderTodos(todos, filters)
     e.target.elements.newTask.value = ''

@@ -9,12 +9,14 @@
         <h2>Take notes and never forget</h2>
         <input id="search-text" type="text" placeholder="Filter notes">
         <select id="filter-by">
-            <option value="byEditied">Sort by last edited</option>
+            <option value="byEdited">Sort by last edited</option>
             <option value="byCreated">Sort by recently added</option>
-            <option value="alhpabetical">Sort Alphabetically</option>
+            <option value="alphabetical">Sort Alphabetically</option>
         </select>
         <div id="notes"></div>
         <button id="create-note">Create Note</button>
+        <script src="uuidv4.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
         <script src="notes-functions.js"></script>
         <script src="notes-app.js"></script>
     </body>
