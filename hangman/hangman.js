@@ -1,46 +1,61 @@
-const Hangman = function (word, remainingGuesses) {
-    this.word = word.toLowerCase().split('')
-    this.remainingGuesses = remainingGuesses
-    this.guessedLetters = []
-}
+class Hangman {
+    constructor(word, remainingGuesses) {
+        this.word = word.toLowerCase().split('')
+        this.remainingGuesses = remainingGuesses
+        this.status = 'playing'
+        this.guessedLetters = []
+    }
+    get puzzle() {
+        let puzzle = ''
 
-Hangman.prototype.getPuzzle = function () {
-    let puzzle = ''
-
-    this.word.forEach((letter) => {
-        if (this.guessedLetters.indexOf(letter) > -1 || letter === ' ') {
-            puzzle += letter
-        } else {
-            puzzle += '*'
+        this.word.forEach((letter) => {
+            if (this.guessedLetters.indexOf(letter) > -1 || letter === ' ') {
+                puzzle += letter
+            } else {
+                puzzle += '*'
+            }
+        })
+        return puzzle
+    }
+    makeGuess(guess){
+        if (this.status === 'playing') {
+            guess = guess.toLowerCase()
+            const isUnique = this.guessedLetters.indexOf(guess) === -1
+            const isBadGuess = this.word.indexOf(guess) === -1
+            if (isUnique) {
+                this.guessedLetters.push(guess)
+            }
+    
+            if (isUnique && isBadGuess) {
+                this.remainingGuesses--
+            }
+    
+            this.calculateStatus()
         }
-    })
-
-    return puzzle
+    }
+    calculateStatus() {
+        const finished = this.word.every((letter) => this.guessedLetters.includes(letter) || letter === ' ')
+    
+    
+        if (this.remainingGuesses === 0) {
+            this.status = 'failed'
+        } else if (finished) {
+            this.status = 'finished'
+        }else {
+            this.status = 'playing'
+        }
+    }
+     get statusMessage() {
+        if (this.status === 'playing') {
+            return `Guesses left: ${this.remainingGuesses}`
+        } else if (this.status === 'failed') {
+            return `Nice Try! The word was "${this.word.join('')}".`
+        } else if (this.status === 'finished') {
+            return 'Great work! You guessed the word.'
+        } else {
+    
+        }
+    }
 }
 
-Hangman.prototype.makeGuess = function(guess) {
-    guess = guess.toLowerCase()
-    const isUnique = this.guessedLetters.indexOf(guess) === -1
-    const isBadGuess = this.word.indexOf(guess) === -1
 
-    if (isUnique) {
-        this.guessedLetters.push(guess)
-    }
-
-    if (isUnique && isBadGuess) {
-        this.remainingGuesses--
-    }
-}
-
-const game1 = new Hangman('Cat', 2)
-game1.makeGuess('c')
-game1.makeGuess('t')
-game1.makeGuess('z')
-
-const game2 = new Hangman('New Jersey', 4)
-game2.makeGuess('w')
-
-console.log(game1.getPuzzle())
-console.log(game1.remainingGuesses)
-console.log(game2.getPuzzle())
-console.log(game2.remainingGuesses)
